@@ -1,6 +1,6 @@
 import React from 'react';
 import CourseCard from '../components/CourseCard'
-import ModuleList from './ModuleList'; 
+import ModuleList from './ModuleList';
 import LessonTabs from "./LessonTabs";
 import CourseEditor from "./CourseEditor";
 
