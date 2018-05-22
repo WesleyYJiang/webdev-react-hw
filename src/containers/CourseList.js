@@ -62,7 +62,8 @@ class CourseList extends React.Component {
                         Course Manager
                     </div>
                     <form className="form-inline my-2 my-lg-0 col-9">
-                        <input className="form-control mr-sm-2 col-8" id="titleFld" placeholder="cs101" onChange={this.titleChanged}/>
+                        <input className="form-control mr-sm-2 col-8" id="titleFld" placeholder="cs101"
+                               onChange={this.titleChanged}/>
                         <button onClick={this.createCourse} className="btn btn-primary">Add</button>
                     </form>
                     </div>

@@ -17,6 +17,7 @@ export default class ModuleList extends React.Component {
         this.titleChanged = this.titleChanged.bind(this);
         this.createModule = this.createModule.bind(this);
         this.setCourseId = this.setCourseId.bind(this);
+        this.deleteModule = this.deleteModule.bind(this);
         this.moduleService = ModuleService.instance;
     }
 
@@ -41,20 +42,30 @@ export default class ModuleList extends React.Component {
             });
     }
 
-
     setCourseId(courseId) {
         this.setState({courseId: courseId});
     }
 
     renderListOfModules() {
-        let modules = this.state.modules.map(function (module) {
-            return <ModuleListItem key={module.id} title={module.title}/>
-        })
+        if(this.state) {
+            var modules = this.state.modules.map((module) => {
+                console.log(module);
+                return <ModuleListItem module={module} key={module.id}
+                                       delete={this.deleteModule}/>
+            });
+        }
         return modules;
     }
 
     createModule() {
-        this.moduleService.createModule(this.props.courseId, this.state.module);
+        this.moduleService.createModule(this.props.courseId, this.state.module)
+            .then(() => {this.findAllModulesForCourse(this.state.courseId); });
+    }
+
+    deleteModule(moduleId) {
+        this.moduleService
+            .deleteModule(moduleId)
+            .then(() => {this.findAllModulesForCourse(this.state.courseId); });
     }
 
     titleChanged(event) {
@@ -65,15 +76,15 @@ export default class ModuleList extends React.Component {
     render() {
         return (
             <div>
-                <br/>
-                <h3>Module List for course: {this.state.courseId}</h3>
-                <input className="form-control"
-                       onChange={this.titleChanged}
-                       // value={this.state.module.title}
-                       placeholder="title"/>
-                <button className="btn btn-primary btn-block" onClick={this.createModule}>
-                    <i className="fa fa-plus"/>
-                </button>
+                <form className="form-inline">
+                    <input className="form-control"
+                           onChange={this.titleChanged}
+                        // value={this.state.module.title}
+                           placeholder="title"/>
+                    <button className="btn btn-primary" onClick={this.createModule}>
+                        <i className="fa fa-plus"/>
+                    </button>
+                </form>
                 <ul className="list-group">
                     {this.renderListOfModules()}
                 </ul>
