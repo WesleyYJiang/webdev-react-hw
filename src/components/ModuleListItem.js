@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class ModuleListItem extends React.Component {
+class ModuleListItem extends React.Component {
     constructor(props){
         super(props);
     }
@@ -17,3 +17,5 @@ export default class ModuleListItem extends React.Component {
         );
     }
 }
+
+export default ModuleListItem;
