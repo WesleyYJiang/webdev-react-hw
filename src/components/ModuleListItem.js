@@ -10,8 +10,8 @@ class ModuleListItem extends React.Component {
             <li className="list-group-item">
                 {this.props.title}
                 <span className={"float-right"}>
-                    <i className="fa fa-pencil"></i>
-                    <i className="fa fa-trash"></i>
+                    <i className="fa fa-pencil"/>
+                    <i className="fa fa-trash"/>
                 </span>
             </li>
         );

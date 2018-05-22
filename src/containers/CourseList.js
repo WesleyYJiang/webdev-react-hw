@@ -54,18 +54,36 @@ class CourseList extends React.Component {
         render() {
         return (
             <div>
-                <h2>Course List</h2>
+                <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+                    <div className="container-fluid">
+                    <div className="navbar-brand">
+                        <i className="fa fa-bars" />
+                        &nbsp;
+                        Course Manager
+                    </div>
+                    <form className="form-inline my-2 my-lg-0 col-9">
+                        <input className="form-control mr-sm-2 col-8" id="titleFld" placeholder="cs101" onChange={this.titleChanged}/>
+                        <button onClick={this.createCourse} className="btn btn-primary">Add</button>
+                    </form>
+                    </div>
+                </nav>
+
+
                 <table className="table">
                     <thead>
-                    <tr><th>Title</th></tr>
-                    <tr>
-                        <th><input onChange={this.titleChanged}
-                                   className="form-control" id="titleFld"
-                                   placeholder="cs101"/></th>
-                        <th><button onClick={this.createCourse}
-                                    className="btn btn-primary">
-                            Add</button></th>
-                    </tr>
+
+                    {/*<tr>*/}
+                        {/*<th scope="col">*/}
+                            {/*<i className="fa fa-bars"></i>*/}
+                            {/*Course  Manager*/}
+                        {/*</th>*/}
+                        {/*<th scope="col"><input onChange={this.titleChanged}*/}
+                                   {/*className="form-control" id="titleFld"*/}
+                                   {/*placeholder="cs101"/></th>*/}
+                        {/*<th scope="col"><button onClick={this.createCourse}*/}
+                                    {/*className="btn btn-primary">*/}
+                            {/*Add</button></th>*/}
+                    {/*</tr>*/}
                     </thead>
                     <tbody>
                     {this.renderCourseRows()}
