@@ -11,12 +11,7 @@ export default class ModuleList extends React.Component {
         super(props);
         this.state = {
             courseId: '',
-            modules:
-                [
-                    {title: 'Module 1', id: 123},
-                    {title: 'Module 2', id: 1},
-                    {title: 'Module 3', id: 2}
-                ]
+            modules: []
         };
         this.titleChanged = this.titleChanged.bind(this);
         this.createModule = this.createModule.bind(this);
@@ -87,17 +82,16 @@ export default class ModuleList extends React.Component {
             <Router>
                 <div className="row">
                     <div className="col-4">
-                        <form className="form-inline">
-                            <input className="form-control"
-                                   onChange={this.titleChanged}
-                                // value={this.state.module.title}
-                                   placeholder="title"/>
-                            <button className="btn btn-primary" onClick={this.createModule}>
-                                <i className="fa fa-plus"/>
-                            </button>
-                        </form>
                         <ul className="list-group">
                             {this.renderListOfModules()}
+                            <form className="form-inline">
+                                <input className="form-control col-10"
+                                       onChange={this.titleChanged}
+                                       placeholder="title"/>
+                                <button className="btn btn-primary col" onClick={this.createModule}>
+                                    <i className="fa fa-plus"/>
+                                </button>
+                            </form>
                         </ul>
                     </div>
                     <div className="col-8">

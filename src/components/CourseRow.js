@@ -7,13 +7,14 @@ class CourseRow extends React.Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <tr>
                 <td>
                     <i className="fa fa-book fa-lg text-primary"/>
                     &nbsp;
                     &nbsp;
-                    <Link to={`/course/${this.props.course.id}/edit`}>
+                    <Link to={`/course/${this.props.course.id}/${this.props.course.title}/edit`}>
                         {this.props.course.title}
                     </Link>
                 </td>
