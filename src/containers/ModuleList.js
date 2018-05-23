@@ -1,6 +1,10 @@
 import React from 'react';
 import ModuleListItem from '../components/ModuleListItem';
 import ModuleService from '../services/ModuleService';
+import ModuleEditor from './ModuleEditor';
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+
+
 
 export default class ModuleList extends React.Component {
     constructor(props) {
@@ -31,7 +35,7 @@ export default class ModuleList extends React.Component {
     }
 
     setModules(modules) {
-        this.setState({modules: modules})
+        this.setState({modules: modules});
     }
 
     findAllModulesForCourse(courseId) {
@@ -47,11 +51,12 @@ export default class ModuleList extends React.Component {
     }
 
     renderListOfModules() {
-        if(this.state) {
+        if (this.state) {
             var modules = this.state.modules.map((module) => {
-                console.log(module);
-                return <ModuleListItem module={module} key={module.id}
-                                       delete={this.deleteModule}/>
+                return <ModuleListItem module={module}
+                                       key={module.id}
+                                       delete={this.deleteModule}
+                                       courseId={this.state.courseId}/>
             });
         }
         return modules;
@@ -59,13 +64,17 @@ export default class ModuleList extends React.Component {
 
     createModule() {
         this.moduleService.createModule(this.props.courseId, this.state.module)
-            .then(() => {this.findAllModulesForCourse(this.state.courseId); });
+            .then(() => {
+                this.findAllModulesForCourse(this.state.courseId);
+            });
     }
 
     deleteModule(moduleId) {
         this.moduleService
             .deleteModule(moduleId)
-            .then(() => {this.findAllModulesForCourse(this.state.courseId); });
+            .then(() => {
+                this.findAllModulesForCourse(this.state.courseId);
+            });
     }
 
     titleChanged(event) {
@@ -75,20 +84,28 @@ export default class ModuleList extends React.Component {
 
     render() {
         return (
-            <div>
-                <form className="form-inline">
-                    <input className="form-control"
-                           onChange={this.titleChanged}
-                        // value={this.state.module.title}
-                           placeholder="title"/>
-                    <button className="btn btn-primary" onClick={this.createModule}>
-                        <i className="fa fa-plus"/>
-                    </button>
-                </form>
-                <ul className="list-group">
-                    {this.renderListOfModules()}
-                </ul>
-            </div>
+            <Router>
+                <div className="row">
+                    <div className="col-4">
+                        <form className="form-inline">
+                            <input className="form-control"
+                                   onChange={this.titleChanged}
+                                // value={this.state.module.title}
+                                   placeholder="title"/>
+                            <button className="btn btn-primary" onClick={this.createModule}>
+                                <i className="fa fa-plus"/>
+                            </button>
+                        </form>
+                        <ul className="list-group">
+                            {this.renderListOfModules()}
+                        </ul>
+                    </div>
+                    <div className="col-8">
+                        <Route path="/course/:courseId/module/:moduleId" component={ModuleEditor}/>
+                        {/*<ModuleEditor/>*/}
+                    </div>
+                </div>
+            </Router>
         );
     }
 }

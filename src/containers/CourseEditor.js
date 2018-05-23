@@ -6,7 +6,8 @@ class CourseEditor extends React.Component {
     constructor(props) {
         super(props);
         this.selectCourse = this.selectCourse.bind(this);
-        this.state = {courseId: '', courseTitle: ''};
+        this.selectModule = this.selectModule.bind(this);
+        this.state = {courseId: '', courseTitle: '', moduleId: ''};
     }
 
     componentDidMount(){
@@ -25,6 +26,10 @@ class CourseEditor extends React.Component {
         this.setState({courseId: courseId});
     }
 
+    selectModule(moduleId) {
+        this.setState({moduleId: moduleId});
+    }
+
 
     render() { return (
         <div>
@@ -39,15 +44,17 @@ class CourseEditor extends React.Component {
                 </div>
             </nav>
 
-        <div className="row">
-            <div className="col-4">
-                <ModuleList courseId={this.state.courseId}/>
-            </div>
-            <div className="col-8">
-                <LessonTabs/>
-            </div>
+            <ModuleList courseId={this.state.courseId}/>
 
-        </div>
+        {/*<div className="row">*/}
+            {/*<div className="col-4">*/}
+                {/*<ModuleList courseId={this.state.courseId}/>*/}
+            {/*</div>*/}
+            {/*<div className="col-8">*/}
+                {/*<LessonTabs moduleId={this.state.moduleId}/>*/}
+            {/*</div>*/}
+
+        {/*</div>*/}
 
         </div>
 
