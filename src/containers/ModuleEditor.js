@@ -1,26 +1,24 @@
 import React from 'react';
 import LessonService from "../services/LessonService";
+import CourseService from "../services/CourseService";
 class ModuleEditor
     extends React.Component {
     constructor(props) {
         super(props);
         this.state = {courseId: '', moduleId: '',
-            lessons:
-                [
-                    {title: 'lesson 1', id: 123},
-                    {title: 'lesson 2', id: 1},
-                    {title: 'lesson 3', id: 2}
-                ]};
+            lessons: []};
         this.setCourseId = this.setCourseId.bind(this);
         this.setModuleId = this.setModuleId.bind(this);
         this.createLesson = this.createLesson.bind(this);
         this.setLessons = this.setLessons.bind(this);
         this.lessonService = LessonService.instance;
+        this.courseService = CourseService.instance;
     }
 
     componentDidMount() {
         this.setCourseId(this.props.match.params.courseId);
         this.setModuleId(this.props.match.params.moduleId);
+        //this.componentWillReceiveProps(this.props);
     }
 
     componentWillReceiveProps(newProps) {
@@ -52,8 +50,10 @@ class ModuleEditor
         var l = this.state.lessons.map((lesson) => {
             return (
                 <li className="nav-item">
-                    <a className="nav-link active" href="#" id={lesson.id}>
-                        {lesson.title}</a>
+                    <a className="nav-link" id={lesson.id}>
+                        {lesson.title}
+                        &nbsp;
+                        </a>
                 </li>
             )
         });
@@ -63,6 +63,21 @@ class ModuleEditor
     createLesson() {
         this.lessonService.createLesson(this.state.moduleId,  {title: 'Default'})
             .then(() => {this.findAllLessonsForModule(this.state.moduleId); });
+        this.courseService.updateCourse(this.state.courseId, {modified: Date.now()});
+    }
+
+    deleteLesson(lessonId) {
+        var c = window.confirm("Are you sure you want to delete the course?")
+        if (c) {
+            alert("You Deleted the course!");
+            this.lessonService.deleteLesson(lessonId)
+                .then(() => {
+                    this.findAllLessonsForModule(this.state.moduleId);
+                });
+            this.courseService.updateCourse(this.state.courseId, {modified: Date.now()});
+        } else {
+            alert("Nothing was changed!");
+        }
     }
 
 

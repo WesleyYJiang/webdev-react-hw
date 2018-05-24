@@ -10,7 +10,7 @@ class ModuleListItem extends React.Component {
 
     render() {
         return (
-            <li className="list-group-item">
+            <li className={`list-group-item ${this.props.active}`}>
                 <Link to={`/course/${this.props.courseId}/module/${this.props.module.id}`}>
                 {this.props.module.title}
                 </Link>

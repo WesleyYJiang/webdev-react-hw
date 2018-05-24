@@ -1,5 +1,6 @@
 import React from 'react';
 import ModuleList from './ModuleList';
+import {Link} from 'react-router-dom'
 
 class CourseEditor extends React.Component {
     constructor(props) {
@@ -40,7 +41,9 @@ class CourseEditor extends React.Component {
             <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
                     <div className="navbar-brand">
-                        <i className="fa fa-times"/>
+                        <Link to={"/courses"}>
+                            <i className="fa fa-times"/>
+                        </Link>
                     </div>
                     <p className="text-light">
                         Editing Course: {this.state.courseTitle}
@@ -49,17 +52,6 @@ class CourseEditor extends React.Component {
             </nav>
 
             <ModuleList courseId={this.state.courseId}/>
-
-        {/*<div className="row">*/}
-            {/*<div className="col-4">*/}
-                {/*<ModuleList courseId={this.state.courseId}/>*/}
-            {/*</div>*/}
-            {/*<div className="col-8">*/}
-                {/*<LessonTabs moduleId={this.state.moduleId}/>*/}
-            {/*</div>*/}
-
-        {/*</div>*/}
-
         </div>
 
     );

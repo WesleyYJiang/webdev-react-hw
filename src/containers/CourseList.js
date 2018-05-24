@@ -35,7 +35,9 @@ class CourseList extends React.Component {
 
     titleChanged(event) {
         this.setState({
-            course: { title: event.target.value }
+            course: { title: event.target.value,
+                created: Date.now(),
+                modified: Date.now()}
         });
     }
 
@@ -46,9 +48,16 @@ class CourseList extends React.Component {
     }
 
     deleteCourse(courseId) {
-        this.courseService
-            .deleteCourse(courseId)
-            .then(() => {this.findAllCourses(); });
+        var c = window.confirm("Are you sure you want to delete the course?")
+        if (c) {
+            alert("You Deleted the course!");
+            this.courseService
+                .deleteCourse(courseId)
+                .then(() => {this.findAllCourses(); });
+        } else {
+            alert("Nothing was changed!");
+        }
+
     }
 
         render() {
@@ -57,7 +66,7 @@ class CourseList extends React.Component {
                 <nav className="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
                     <div className="container-fluid">
                     <div className="navbar-brand">
-                        <i className="fa fa-bars" />
+                        <i className="fa fa-bars"/>
                         &nbsp;
                         Course Manager
                     </div>
@@ -68,23 +77,16 @@ class CourseList extends React.Component {
                     </form>
                     </div>
                 </nav>
-
-
                 <table className="table">
                     <thead>
-
-                    {/*<tr>*/}
-                        {/*<th scope="col">*/}
-                            {/*<i className="fa fa-bars"></i>*/}
-                            {/*Course  Manager*/}
-                        {/*</th>*/}
-                        {/*<th scope="col"><input onChange={this.titleChanged}*/}
-                                   {/*className="form-control" id="titleFld"*/}
-                                   {/*placeholder="cs101"/></th>*/}
-                        {/*<th scope="col"><button onClick={this.createCourse}*/}
-                                    {/*className="btn btn-primary">*/}
-                            {/*Add</button></th>*/}
-                    {/*</tr>*/}
+                    <tr className="table-secondary">
+                        <th scope="col">
+                            Title
+                        </th>
+                        <th scope="col">Owned by</th>
+                        <th scope="col">Last modified by me</th>
+                        <th scope="col">&nbsp;</th>
+                    </tr>
                     </thead>
                     <tbody>
                     {this.renderCourseRows()}

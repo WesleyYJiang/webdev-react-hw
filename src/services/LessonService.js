@@ -29,4 +29,13 @@ export default class LessonService {
                 return response.json();
             })
     }
+
+    deleteLesson(moduleId, lessonId) {
+        return fetch(LESSON_API_URL.replace('MID', moduleId) + '/' + lessonId,
+            {
+                method: 'DELETE'
+            }).then(function (response) {
+            return response;
+        })
+    }
 }

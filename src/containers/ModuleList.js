@@ -3,21 +3,20 @@ import ModuleListItem from '../components/ModuleListItem';
 import ModuleService from '../services/ModuleService';
 import ModuleEditor from './ModuleEditor';
 import {BrowserRouter as Router, Route} from 'react-router-dom'
+import CourseService from "../services/CourseService";
 
 
 
 export default class ModuleList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            courseId: '',
-            modules: []
-        };
+        this.state = {courseId: '', modules: []};
         this.titleChanged = this.titleChanged.bind(this);
         this.createModule = this.createModule.bind(this);
         this.setCourseId = this.setCourseId.bind(this);
         this.deleteModule = this.deleteModule.bind(this);
         this.moduleService = ModuleService.instance;
+        this.courseService = CourseService.instance;
     }
 
     componentDidMount() {
@@ -51,7 +50,8 @@ export default class ModuleList extends React.Component {
                 return <ModuleListItem module={module}
                                        key={module.id}
                                        delete={this.deleteModule}
-                                       courseId={this.state.courseId}/>
+                                       courseId={this.state.courseId}
+                                       active={""}/>
             });
         }
         return modules;
@@ -62,14 +62,22 @@ export default class ModuleList extends React.Component {
             .then(() => {
                 this.findAllModulesForCourse(this.state.courseId);
             });
+        this.courseService.updateCourse(this.state.courseId, {modified: Date.now()});
     }
 
     deleteModule(moduleId) {
-        this.moduleService
-            .deleteModule(moduleId)
-            .then(() => {
-                this.findAllModulesForCourse(this.state.courseId);
-            });
+        var c = window.confirm("Are you sure you want to delete the course?")
+        if (c) {
+            alert("You Deleted the course!");
+            this.moduleService
+                .deleteModule(moduleId)
+                .then(() => {
+                    this.findAllModulesForCourse(this.state.courseId);
+                });
+            this.courseService.updateCourse(this.state.courseId, {modified: Date.now()});
+        } else {
+            alert("Nothing was changed!");
+        }
     }
 
     titleChanged(event) {
@@ -96,7 +104,6 @@ export default class ModuleList extends React.Component {
                     </div>
                     <div className="col-8">
                         <Route path="/course/:courseId/module/:moduleId" component={ModuleEditor}/>
-                        {/*<ModuleEditor/>*/}
                     </div>
                 </div>
             </Router>

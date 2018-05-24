@@ -7,7 +7,6 @@ class CourseRow extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <tr>
                 <td>
@@ -19,7 +18,9 @@ class CourseRow extends React.Component {
                     </Link>
                 </td>
                 <td>me</td>
-                <td>time</td>
+                <td>
+                    {this.props.course.modified}
+                </td>
                 <td>
                     <i className="fa fa-trash fa-lg"
                        onClick={() => {this.props.delete(this.props.course.id)}}/>
@@ -28,6 +29,4 @@ class CourseRow extends React.Component {
         )
     }
 }
-
 export default CourseRow;
-//
