@@ -81,7 +81,7 @@ class ModuleEditor
     }
 
 
-    render() {
+    render() { 
         return (
             <div>
                 <h1>Module Editor</h1>

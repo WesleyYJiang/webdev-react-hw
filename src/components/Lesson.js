@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 class Lesson extends React.Component {
     constructor(props){
@@ -8,10 +9,13 @@ class Lesson extends React.Component {
     render() {
         return (
             <li className="nav-item">
-                <a className="nav-link active" href="#">Default</a>
+                <Link to={`/lesson/${this.props.id}/widget/list`}>
+                <a className="nav-link active">Default</a>
+                </Link>
             </li>
         );
     }
 }
 
 export default Lesson;
+
