@@ -1,12 +1,15 @@
 import React from 'react';
 import LessonService from "../services/LessonService";
 import CourseService from "../services/CourseService";
-class ModuleEditor
-    extends React.Component {
+import {BrowserRouter as Router, Route} from 'react-router-dom'
+import WidgetList from "./WidgetList";
+import LessonEditor from "./LessonEditor"
+import Link from "react-router-dom/es/Link";
+
+class ModuleEditor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {courseId: '', moduleId: '',
-            lessons: []};
+        this.state = {courseId: '', moduleId: '', lessons: []};
         this.setCourseId = this.setCourseId.bind(this);
         this.setModuleId = this.setModuleId.bind(this);
         this.createLesson = this.createLesson.bind(this);
@@ -18,7 +21,7 @@ class ModuleEditor
     componentDidMount() {
         this.setCourseId(this.props.match.params.courseId);
         this.setModuleId(this.props.match.params.moduleId);
-        //this.componentWillReceiveProps(this.props);
+        this.componentWillReceiveProps(this.props);
     }
 
     componentWillReceiveProps(newProps) {
@@ -42,18 +45,21 @@ class ModuleEditor
             .findAllLessonForModule(moduleId)
             .then((lessons) => {this.setLessons(lessons)});
     }
-    setModuleId(moduleId) {
-        this.setState({moduleId: moduleId});
-    }
 
     renderLessons() {
         var l = this.state.lessons.map((lesson) => {
             return (
-                <li className="nav-item">
-                    <a className="nav-link" id={lesson.id}>
+                <li className="nav-item"  key={lesson.id}>
+                    <div className="nav-link">
+                        <Link to={`/course/${this.state.courseId}/module/${this.state.moduleId}/lesson/${lesson.id}`}>
                         {lesson.title}
+                        </Link>
                         &nbsp;
-                        </a>
+                        <i className="fa fa-times fa-lg"
+                           onClick={() => {this.deleteLesson(this.state.moduleId, lesson.id)}}/>
+                        </div>
+
+
                 </li>
             )
         });
@@ -66,11 +72,11 @@ class ModuleEditor
         this.courseService.updateCourse(this.state.courseId, {modified: Date.now()});
     }
 
-    deleteLesson(lessonId) {
-        var c = window.confirm("Are you sure you want to delete the course?")
+    deleteLesson(moduleId, lessonId) {
+        var c = window.confirm("Are you sure you want to delete the course?");
         if (c) {
             alert("You Deleted the course!");
-            this.lessonService.deleteLesson(lessonId)
+            this.lessonService.deleteLesson(moduleId, lessonId)
                 .then(() => {
                     this.findAllLessonsForModule(this.state.moduleId);
                 });
@@ -81,16 +87,20 @@ class ModuleEditor
     }
 
 
-    render() { 
+    render() {
         return (
+            <Router>
             <div>
-                <h1>Module Editor</h1>
                 <ul className="nav nav-tabs">
                     {this.renderLessons()}
                     <button type="button" className="btn btn-primary"
                             onClick={this.createLesson}>Add</button>
                 </ul>
+                <div>
+                   <Route path="/course/:courseId/module/:moduleId/lesson/:lessonId" component={LessonEditor}/>
+                </div>
             </div>
+            </Router>
         )}}
 
 export default ModuleEditor;

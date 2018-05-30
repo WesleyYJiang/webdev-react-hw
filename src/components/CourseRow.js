@@ -13,7 +13,8 @@ class CourseRow extends React.Component {
                     <i className="fa fa-book fa-lg text-primary"/>
                     &nbsp;
                     &nbsp;
-                    <Link to={`/course/${this.props.course.id}/${this.props.course.title}/edit`}>
+                    <Link to={{pathname: `/course/${this.props.course.id}`,
+                        state: {courseTitle: this.props.course.title}}}>
                         {this.props.course.title}
                     </Link>
                 </td>

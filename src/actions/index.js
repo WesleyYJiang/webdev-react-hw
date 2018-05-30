@@ -1,4 +1,4 @@
-import * as constants from "../../../../webdev-react-hw/src/constants/index"
+import * as constants from "../constants/index"
 
 export const headingTextChanged = (dispatch, widgetId, newText) => (
     dispatch({
@@ -13,6 +13,14 @@ export const imageChanged = (dispatch, widgetId, newsrc) => (
         type: constants.IMAGE_CHANGED,
         id: widgetId,
         text: newsrc
+    })
+);
+
+export const up = (dispatch, widgetId, displayOrder) => (
+    dispatch({
+        type: constants.UP,
+        id: widgetId,
+        displayOrder: displayOrder
     })
 );
 
@@ -39,9 +47,16 @@ export const convertToList = (dispatch, widgetId, newList) => (
     })
 );
 
-
+export const findWidgetsForLesson = (dispatch, lessonId) => {
+    fetch('http://localhost:8080/api/lesson/LID/widget'.replace('LID', lessonId))
+        .then(response => (response.json()))
+        .then(widgets => dispatch({
+            type: constants.FIND_ALL_WIDGETS,
+            widgets: widgets
+        }))
+};
 export const findAllWidgets = dispatch => {
-    fetch('http://localhost:8080/api/')
+    fetch('http://localhost:8080/api/widget')
         .then(response => (response.json()))
         .then(widgets => dispatch({
             type: constants.FIND_ALL_WIDGETS,

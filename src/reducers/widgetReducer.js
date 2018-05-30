@@ -1,6 +1,8 @@
-import * as constants from "../../../../webdev-react-hw/src/constants/index"
+import * as constants from "../constants/index"
 
-export const widgetReducer = (state = {widgets: [], preview: false}, action) => {
+let countId = 0;
+
+export const widgetReducer = (state = {widgets: [], preview: false, countId: 0}, action) => {
     let newState;
     switch (action.type) {
 
@@ -20,7 +22,8 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
         case constants.PREVIEW:
             return {
                 widgets: state.widgets,
-                preview: !state.preview
+                preview: !state.preview,
+                countId: state.countId
             };
 
         case constants.HEADING_TEXT_CHANGED:
@@ -44,7 +47,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
             };
 
         case constants.SELECT_WIDGET_TYPE:
-            let newState = {
+            newState = {
                 widgets: state.widgets.filter((widget) => {
                     if(widget.id === action.id) {
                         widget.widgetType = action.widgetType
@@ -52,7 +55,7 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
                     return true;
                 })
             };
-            return JSON.parse(JSON.stringify(newState))
+            return JSON.parse(JSON.stringify(newState));
 
         case constants.SAVE:
             fetch('http://localhost:8080/api/widget/save', {
@@ -63,26 +66,62 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
             });
             return state;
 
+
         case constants.FIND_ALL_WIDGETS:
             newState = Object.assign({}, state);
             newState.widgets = action.widgets;
             return newState;
 
+        case constants.UP:
+            return {
+                widgets: state.widgets.map(widget => {
+                    if(action.displayOrder !== 1 && widget.displayOrder == (action.displayOrder - 1)) {
+                        widget.displayOrder += 1;
+                    }
+                    else if (action.displayOrder !== 1 && widget.displayOrder == action.displayOrder) {
+                        widget.displayOrder -= 1;
+                    }
+                    return Object.assign({}, widget)
+                }).sort(function(a, b){return a.displayOrder - b.displayOrder})
+            };
+
+        case constants.DOWN:
+            return {
+                widgets: state.widgets.map(widget => {
+                    if(action.displayOrder !== state.widgets.length
+                        && widget.displayOrder == (action.displayOrder + 1)) {
+                        widget.displayOrder -= 1;
+                    }
+                    else if (action.displayOrder !== state.widgets.length
+                        && widget.displayOrder == action.displayOrder) {
+                        widget.displayOrder += 1;
+                    }
+                    return Object.assign({}, widget)
+                }).sort(function(a, b){return a.displayOrder - b.displayOrder})
+            };
+
         case constants.DELETE_WIDGET:
             return {
                 widgets: state.widgets.filter(widget => (
                     widget.id !== action.id
-                ))
+                )).map(widget => {
+                    if(widget.displayOrder > action.displayOrder) {
+                        widget.displayOrder -= 1;
+                    }
+                    return Object.assign({}, widget)
+                })
+
             };
 
         case constants.ADD_WIDGET:
+            countId += 1;
             return {
                 widgets: [
                     ...state.widgets,
                     {
-                        id: state.widgets.length + 1,
+                        id: countId,
                         name: 'New Widget',
-                        order: 0,
+                        displayOrder: state.widgets.length + 1,
                         text: 'New Widget',
                         className: '',
                         width: '',
@@ -91,7 +130,8 @@ export const widgetReducer = (state = {widgets: [], preview: false}, action) => 
                         widgetType: 'Paragraph',
                         src: 'https://source.unsplash.com/random',
                         href: '#',
-                        size: '2'
+                        size: '2',
+                        lessonId: '',
                     }
                 ]
             };

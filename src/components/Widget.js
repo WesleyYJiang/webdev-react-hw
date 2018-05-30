@@ -10,7 +10,7 @@ const Paragraph = ({widget, preview, headingTextChanged}) => {
         <div>
             <form hidden={preview}>
                 <div className="form-group">
-                    <h2>Paragraph Widget</h2>
+                    <h2>Paragraph Widget ORDER:{widget.displayOrder}</h2>
                 </div>
                 <div className="form-group">
                     <textarea className="form-control"
@@ -131,8 +131,25 @@ const Widget = ({widget, preview, dispatch}) => {
 
                 <div className="btn-toolbar btn-group" role="toolbar" aria-label="Basic example">
                     <div className="btn-group mr-2" role="group" >
-                        <button type="button" className="btn btn-warning">Up</button>
-                        <button type="button" className="btn btn-warning">Down</button>
+                        <button type="button"
+                                className="btn btn-warning"
+                                onClick={e => (dispatch({
+                                    type: 'UP',
+                                    id: widget.id,
+                                    displayOrder: widget.displayOrder
+                                    }))}>
+                            <i className="fa fa-chevron-up"/>
+                        </button>
+
+                        <button type="button"
+                                className="btn btn-warning"
+                                onClick={e => (dispatch({
+                                    type: 'DOWN',
+                                    id: widget.id,
+                                    displayOrder: widget.displayOrder
+                                }))}>
+                            <i className="fa fa-chevron-down"/>
+                        </button>
                     </div>
 
                     <div className="btn-group mr-2" role="group">
@@ -154,7 +171,9 @@ const Widget = ({widget, preview, dispatch}) => {
                     <div className="btn-group mr-2" role="group">
                         <button type="button"
                                 className="btn btn-danger"
-                                onClick={e => (dispatch({type: DELETE_WIDGET, id: widget.id}))}>
+                                onClick={e => (dispatch({type: DELETE_WIDGET,
+                                    id: widget.id,
+                                    displayOrder: widget.displayOrder}))}>
                             <i className="fa fa-times"/>
                         </button>
                     </div>

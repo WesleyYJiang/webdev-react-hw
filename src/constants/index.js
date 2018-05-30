@@ -9,3 +9,5 @@ export const PREVIEW = 'PREVIEW';
 export const IMAGE_CHANGED = 'HREF_CHANGED';
 export const HREF_CHANGED = 'IMAGE_CHANGED';
 export const CONVERT_LIST = 'CONVERT_LIST';
+export const UP = 'UP';
+export const DOWN = 'DOWN';

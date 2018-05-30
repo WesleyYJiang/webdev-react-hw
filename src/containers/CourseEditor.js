@@ -5,20 +5,20 @@ import {Link} from 'react-router-dom'
 class CourseEditor extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {courseId: '', courseTitle: '', moduleId: ''};
         this.selectCourse = this.selectCourse.bind(this);
         this.selectModule = this.selectModule.bind(this);
-        this.selectTitle = this.selectTitle.bind(this);
-        this.state = {courseId: '', courseTitle: '', moduleId: ''};
+        // this.selectTitle = this.selectTitle.bind(this);
     }
 
     componentDidMount(){
         this.selectCourse(this.props.match.params.courseId);
-        this.selectTitle(this.props.match.params.courseTitle);
+        // this.selectTitle(this.props.location.state.courseTitle);
     }
 
     componentWillReceiveProps(newProps){
         this.selectCourse(newProps.match.params.courseId);
-        this.selectTitle(newProps.match.params.courseTitle);
+        // this.selectTitle(newProps.props.location.state.courseTitle);
     }
 
 
@@ -26,9 +26,9 @@ class CourseEditor extends React.Component {
         this.setState({courseId: courseId});
     }
 
-    selectTitle(courseTitle) {
-        this.setState({courseTitle: courseTitle});
-    }
+    // selectTitle(courseTitle) {
+    //     this.setState({courseTitle: courseTitle});
+    // }
 
 
     selectModule(moduleId) {
@@ -46,11 +46,10 @@ class CourseEditor extends React.Component {
                         </Link>
                     </div>
                     <p className="text-light">
-                        Editing Course: {this.state.courseTitle}
+                        {/*Editing Course: {this.state.courseTitle}*/}
                     </p>
                 </div>
             </nav>
-
             <ModuleList courseId={this.state.courseId}/>
         </div>
 
