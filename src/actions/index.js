@@ -1,10 +1,18 @@
 import * as constants from "../constants/index"
 
-export const headingTextChanged = (dispatch, widgetId, newText) => (
+export const textChanged = (dispatch, widgetId, newText) => (
     dispatch({
         type: constants.HEADING_TEXT_CHANGED,
         id: widgetId,
         text: newText
+    })
+);
+
+export const changeListType = (dispatch, widgetId, newListType) => (
+    dispatch({
+        type: constants.HEADING_TEXT_CHANGED,
+        id: widgetId,
+        listType: newListType
     })
 );
 
@@ -55,6 +63,14 @@ export const findWidgetsForLesson = (dispatch, lessonId) => {
             widgets: widgets
         }))
 };
+
+export const setLessonId = (dispatch, lessonId) => (
+    dispatch({
+        type: constants.SET_LESSON_ID,
+        lessonId: lessonId
+    })
+);
+
 export const findAllWidgets = dispatch => {
     fetch('http://localhost:8080/api/widget')
         .then(response => (response.json()))
@@ -67,9 +83,11 @@ export const findAllWidgets = dispatch => {
 export const addWidget = dispatch => (
     dispatch({type: constants.ADD_WIDGET})
 );
-export const save = dispatch => (
-    dispatch({type: constants.SAVE})
+
+export const save = (dispatch, lessonId) => (
+    dispatch({type: constants.SAVE, lessonId: lessonId})
 );
+
 export const preview = dispatch => (
     dispatch({type: constants.PREVIEW})
 );

@@ -2,7 +2,7 @@ import React from 'react';
 import ModuleListItem from '../components/ModuleListItem';
 import ModuleService from '../services/ModuleService';
 import ModuleEditor from './ModuleEditor';
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import CourseService from "../services/CourseService";
 
 
@@ -87,7 +87,7 @@ export default class ModuleList extends React.Component {
 
     render() {
         return (
-            <Router>
+            <Switch>
                 <div className="row">
                     <div className="col-4">
                         <ul className="list-group">
@@ -106,7 +106,7 @@ export default class ModuleList extends React.Component {
                         <Route path="/course/:courseId/module/:moduleId" component={ModuleEditor}/>
                     </div>
                 </div>
-            </Router>
+            </Switch>
         );
     }
 }

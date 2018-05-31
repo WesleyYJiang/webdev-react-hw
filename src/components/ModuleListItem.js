@@ -15,8 +15,10 @@ class ModuleListItem extends React.Component {
                 {this.props.module.title}
                 </Link>
                 <span className={"float-right"}>
+                    <Link to={`/course/${this.props.courseId}/module`}>
                      <i className="fa fa-trash fa-lg"
                         onClick={() => {this.props.delete(this.props.module.id)}}/>
+                        </Link>
                 </span>
             </li>
         );

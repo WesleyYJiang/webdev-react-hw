@@ -2,9 +2,24 @@ import * as constants from "../constants/index"
 
 let countId = 0;
 
-export const widgetReducer = (state = {widgets: [], preview: false, countId: 0}, action) => {
+export const widgetReducer = (state = {widgets: [], preview: false}, action) => {
     let newState;
     switch (action.type) {
+
+        case constants.CHANGE_LIST_TYPE:
+            return {
+                widgets: state.widgets.map(widget => {
+                    if(widget.id === action.id) {
+                        widget.listType = action.listType
+                    }
+                    return Object.assign({}, widget)
+                })
+            };
+
+        case constants.SET_LESSON_ID:
+            return {
+                lessonId: action.lessonId
+            };
 
         case constants.CONVERT_LIST:
             return {
@@ -22,8 +37,7 @@ export const widgetReducer = (state = {widgets: [], preview: false, countId: 0},
         case constants.PREVIEW:
             return {
                 widgets: state.widgets,
-                preview: !state.preview,
-                countId: state.countId
+                preview: !state.preview
             };
 
         case constants.HEADING_TEXT_CHANGED:
@@ -58,12 +72,13 @@ export const widgetReducer = (state = {widgets: [], preview: false, countId: 0},
             return JSON.parse(JSON.stringify(newState));
 
         case constants.SAVE:
-            fetch('http://localhost:8080/api/widget/save', {
-                method: 'post',
-                body: JSON.stringify(state.widgets),
-                headers: {
+            fetch('/api/lesson/LID/widget'.replace('LID', action.lessonId),
+                {
+                    method: 'post',
+                    body: JSON.stringify({lesson: {widget : state.widgets}}),
+                    headers: {
                     'content-type': 'application/json'}
-            });
+                });
             return state;
 
 
@@ -131,7 +146,6 @@ export const widgetReducer = (state = {widgets: [], preview: false, countId: 0},
                         src: 'https://source.unsplash.com/random',
                         href: '#',
                         size: '2',
-                        lessonId: '',
                     }
                 ]
             };

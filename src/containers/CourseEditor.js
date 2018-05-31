@@ -1,6 +1,7 @@
 import React from 'react';
 import ModuleList from './ModuleList';
 import {Link} from 'react-router-dom'
+import CourseService from "../services/CourseService";
 
 class CourseEditor extends React.Component {
     constructor(props) {
@@ -8,27 +9,21 @@ class CourseEditor extends React.Component {
         this.state = {courseId: '', courseTitle: '', moduleId: ''};
         this.selectCourse = this.selectCourse.bind(this);
         this.selectModule = this.selectModule.bind(this);
-        // this.selectTitle = this.selectTitle.bind(this);
+
     }
 
     componentDidMount(){
         this.selectCourse(this.props.match.params.courseId);
-        // this.selectTitle(this.props.location.state.courseTitle);
     }
 
     componentWillReceiveProps(newProps){
         this.selectCourse(newProps.match.params.courseId);
-        // this.selectTitle(newProps.props.location.state.courseTitle);
     }
 
 
     selectCourse(courseId) {
         this.setState({courseId: courseId});
     }
-
-    // selectTitle(courseTitle) {
-    //     this.setState({courseTitle: courseTitle});
-    // }
 
 
     selectModule(moduleId) {
@@ -46,7 +41,7 @@ class CourseEditor extends React.Component {
                         </Link>
                     </div>
                     <p className="text-light">
-                        {/*Editing Course: {this.state.courseTitle}*/}
+                        Editing Course ID: {this.state.courseId}
                     </p>
                 </div>
             </nav>

@@ -11,3 +11,5 @@ export const HREF_CHANGED = 'IMAGE_CHANGED';
 export const CONVERT_LIST = 'CONVERT_LIST';
 export const UP = 'UP';
 export const DOWN = 'DOWN';
+export const SET_LESSON_ID = 'SET_LESSON_ID';
+export const CHANGE_LIST_TYPE = 'CHANGE_LIST_TYPE';

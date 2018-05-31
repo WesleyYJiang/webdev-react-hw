@@ -1,7 +1,7 @@
 import React from 'react';
 import LessonService from "../services/LessonService";
 import CourseService from "../services/CourseService";
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import WidgetList from "./WidgetList";
 import LessonEditor from "./LessonEditor"
 import Link from "react-router-dom/es/Link";
@@ -14,6 +14,7 @@ class ModuleEditor extends React.Component {
         this.setModuleId = this.setModuleId.bind(this);
         this.createLesson = this.createLesson.bind(this);
         this.setLessons = this.setLessons.bind(this);
+        this.titleChanged = this.titleChanged.bind(this);
         this.lessonService = LessonService.instance;
         this.courseService = CourseService.instance;
     }
@@ -49,7 +50,7 @@ class ModuleEditor extends React.Component {
     renderLessons() {
         var l = this.state.lessons.map((lesson) => {
             return (
-                <li className="nav-item"  key={lesson.id}>
+                <li className="nav-item"  key={lesson.id} >
                     <div className="nav-link">
                         <Link to={`/course/${this.state.courseId}/module/${this.state.moduleId}/lesson/${lesson.id}`}>
                         {lesson.title}
@@ -58,7 +59,6 @@ class ModuleEditor extends React.Component {
                         <i className="fa fa-times fa-lg"
                            onClick={() => {this.deleteLesson(this.state.moduleId, lesson.id)}}/>
                         </div>
-
 
                 </li>
             )
@@ -86,10 +86,22 @@ class ModuleEditor extends React.Component {
         }
     }
 
+    titleChanged(event) {
+        this.setState({Lesson: {title: event.target.value}});
+    }
+
+    updateTitle() {
+        this.lessonService.update(this.props.moduleId, this.state.lessonId, this.state.Lesson.title)
+            .then(() => {
+                this.findAllLessonsForModule(this.state.moduleId);
+            });
+        this.courseService.updateCourse(this.state.courseId, {modified: Date.now()});
+    }
+
 
     render() {
         return (
-            <Router>
+            <Switch>
             <div>
                 <ul className="nav nav-tabs">
                     {this.renderLessons()}
@@ -97,10 +109,18 @@ class ModuleEditor extends React.Component {
                             onClick={this.createLesson}>Add</button>
                 </ul>
                 <div>
+                    <form className="form-inline">
+                    <input className="form-control col-10"
+                           onChange={this.titleChanged}
+                           placeholder="Lesson Title"/>
+                    <button className="btn btn-primary col" onClick={this.updateTitle}>
+                        Edit Lesson Name
+                    </button>
+                    </form>
                    <Route path="/course/:courseId/module/:moduleId/lesson/:lessonId" component={LessonEditor}/>
                 </div>
             </div>
-            </Router>
+            </Switch>
         )}}
 
 export default ModuleEditor;

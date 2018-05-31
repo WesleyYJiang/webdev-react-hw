@@ -6,28 +6,26 @@ import WidgetContainer from '../components/Widget';
 class WidgetList extends Component {
     constructor(props) {
         super(props);
-        // this.props.findAllWidgets();
+        //this.props.findAllWidgets();
+        // this.props.setLessonId(this.props.lessonId);
         // this.props.findWidgetsForLesson(this.props.lessonId);
-        this.state = {
-            loaded: false,
-            lessonId: 0,
-            widgets: []
-        }
-        this.widgetListUpdate = this.widgetListUpdate.bind(this)
+        // this.state = {
+        //     // loaded: false,
+        //     lessonId: 0,
+        //     widgets: []
+        // };
+
     }
 
-    widgetListUpdate(newProps) {
-        // this.setState({
-        //     lessonId: newProps.lessonId,
-        //     widgets: newProps.findWidgetsForLesson(newProps.lessonId)
-        // });
-    }
 
-    componentWillReceiveProps(newProps) {
-        if(!this.state.loaded)
-            newProps.findWidgetsForLesson(newProps.lessonId)
-        this.setState({loaded: true})
-    }
+    // componentWillReceiveProps(newProps) {
+    //     this.props.findWidgetsForLesson(newProps.lessonId);
+    //
+    //     // this.setState({lessonId : newProps.lessonId})
+    //     // if(!this.state.loaded)
+    //     //     newProps.findWidgetsForLesson(newProps.lessonId);
+    //     // this.setState({loaded: true})
+    // }
 
     render() {
         return (
@@ -37,7 +35,7 @@ class WidgetList extends Component {
                     <div className="btn-group mr-3" role="group">
                         &nbsp;
                         <button type="button"
-                                onClick={this.props.save}
+                                onClick={() => this.props.save(this.props.lessonId)}
                                 className="btn btn-success">Save
                         </button>
                     </div>
@@ -81,27 +79,15 @@ const stateToPropertiesMapper = (state, ownProps) => ({
 });
 
 const dispatcherToPropsMapper = dispatch => ({
+    setLessonId: (lessonId) => actions.setLessonId(dispatch, lessonId),
     findWidgetsForLesson: (lessonId) => actions.findWidgetsForLesson(dispatch, lessonId),
     findAllWidgets: () => actions.findAllWidgets(dispatch),
     addWidget: () => actions.addWidget(dispatch),
-    save: () => actions.save(dispatch),
+    save: (lessonId) => actions.save(dispatch, lessonId),
     preview: () => actions.preview(dispatch)
 });
 
-const App = connect(
-    stateToPropertiesMapper,
-    dispatcherToPropsMapper)(WidgetList);
+const App = connect(stateToPropertiesMapper, dispatcherToPropsMapper)(WidgetList);
 
-// let store = createStore(widgetReducer);
-//
-// class WidgetListContainer extends Component {
-//     render() {
-//         return (
-//             <Provider store={store}>
-//                 <App/>
-//             </Provider>
-//         )
-//     }
-// }
 export default App;
 

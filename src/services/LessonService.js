@@ -38,4 +38,15 @@ export default class LessonService {
             return response;
         })
     }
+
+    update(moduleId, lessonId, lesson) {
+        return fetch(LESSON_API_URL.replace('MID', moduleId) + '/' + lessonId,
+            {
+                method: 'PUT',
+                body: JSON.stringify(lesson),
+                headers: {'content-type': 'application/json'
+            }}).then(function (response) {
+            return response;
+        })
+    }
 }

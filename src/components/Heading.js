@@ -40,7 +40,7 @@ const Heading = ({widget, preview, headingTextChanged, headingSizeChanged}) => {
 
 const dispatchToPropsMapper =
     dispatch => ({
-        headingTextChanged: (widgetId, newText) => actions.headingTextChanged(dispatch, widgetId, newText),
+        headingTextChanged: (widgetId, newText) => actions.textChanged(dispatch, widgetId, newText),
         headingSizeChanged: (widgetId, newSize) => actions.headingSizeChanged(dispatch, widgetId, newSize)
     });
 

@@ -80,8 +80,9 @@ const Link = ({widget, preview, hrefChanged, headingTextChanged}) => {
     )
 };
 
-const List = ({widget, preview, headingTextChanged}) => {
+const List = ({widget, preview, headingTextChanged, changeListType}) => {
     let inputElem;
+    let selectElem;
     return(
         <div>
             <form hidden={preview}>
@@ -94,6 +95,13 @@ const List = ({widget, preview, headingTextChanged}) => {
                               value={widget.text}
                               ref={node => inputElem = node}>
                     </textarea>
+                    <select onChange={() => changeListType(widget.id, selectElem.value)}
+                            value={widget.listType}
+                            className="form-control"
+                            ref={node => selectElem = node}>
+                        <option value="1">Unordered</option>
+                        <option value="2">Ordered</option>
+                    </select>
                 </div>
                 <div className="form-group">
                     <h3>Preview</h3>
@@ -106,7 +114,8 @@ const List = ({widget, preview, headingTextChanged}) => {
 
 const dispatchToPropsMapper =
     dispatch => ({
-        headingTextChanged: (widgetId, newText) => actions.headingTextChanged(dispatch, widgetId, newText),
+        changeListType:(widgetId, newListType) => actions.changeListType(dispatch, widgetId, newListType),
+        headingTextChanged: (widgetId, newText) => actions.textChanged(dispatch, widgetId, newText),
         hrefChanged: (widgetId, newhref) => actions.hrefChanged(dispatch, widgetId, newhref),
         imageChanged: (widgetId, newsrc) => actions.imageChanged(dispatch, widgetId, newsrc),
         convertToList: (widgetId, newList) => actions.convertToList(dispatch, widgetId, newList)
