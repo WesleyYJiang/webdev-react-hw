@@ -1,5 +1,5 @@
 const MODULE_API_URL = 'http://localhost:8080/api/course/CID/module';
-
+const REMOTE = 'https://webdev-hw-wj.herokuapp.com/api/course/CID/module';
 
 let _singleton = Symbol();
 export default class ModuleService {
@@ -15,7 +15,7 @@ export default class ModuleService {
 
 
     createModule(courseId, module) {
-        return fetch(MODULE_API_URL.replace('CID', courseId),
+        return fetch(REMOTE.replace('CID', courseId),
             {   body: JSON.stringify(module),
                 headers: { 'Content-Type': 'application/json' },
                 method: 'POST'
@@ -24,7 +24,7 @@ export default class ModuleService {
     }
 
     deleteModule(moduleId) {
-        return fetch("http://localhost:8080/api/module/" + moduleId,
+        return fetch("https://webdev-hw-wj.herokuapp.com/api/module/" + moduleId,
             {
                 method: 'DELETE'
             }).then(function (response) {
@@ -35,7 +35,7 @@ export default class ModuleService {
 
     findAllModulesForCourse(courseId) {
         return fetch(
-            MODULE_API_URL
+            REMOTE
                 .replace('CID', courseId))
             .then(function (response) {
                 return response.json();
@@ -44,7 +44,7 @@ export default class ModuleService {
 
     findAllModules() {
         return fetch(
-            "http://localhost:8080/api/module")
+            "https://webdev-hw-wj.herokuapp.com/api/module")
             .then(function (response) {
                 return response.json();
             })

@@ -1,4 +1,5 @@
 const WIDGET_API_URL = 'http://localhost:8080/api/lesson/LID/widget';
+const REMOTE = 'https://webdev-hw-wj.herokuapp.com/api/lesson/LID/widget';
 
 
 let _singleton = Symbol();
@@ -15,7 +16,7 @@ export default class WidgetService {
 
 
     createWidget(lessonId, widget) {
-        return fetch(WIDGET_API_URL.replace('LID', lessonId),
+        return fetch(REMOTE.replace('LID', lessonId),
             {   body: JSON.stringify(widget),
                 headers: { 'Content-Type': 'application/json' },
                 method: 'POST'
@@ -24,7 +25,7 @@ export default class WidgetService {
     }
 
     deleteWidget(widgetId, lessonId) {
-        return fetch(WIDGET_API_URL.replace('LID', lessonId) + '/' + widgetId,
+        return fetch(REMOTE.replace('LID', lessonId) + '/' + widgetId,
             {
                 method: 'DELETE'
             }).then(function (response) {
@@ -35,7 +36,7 @@ export default class WidgetService {
 
     findAllWidgetForLesson(lessonId) {
         return fetch(
-            WIDGET_API_URL.replace('LID', lessonId))
+            REMOTE.replace('LID', lessonId))
             .then(function (response) {
                 return response.json();
             })

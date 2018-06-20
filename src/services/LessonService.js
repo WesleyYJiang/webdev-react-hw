@@ -1,4 +1,5 @@
 const LESSON_API_URL = 'http://localhost:8080/api/module/MID/lesson';
+const REMOTE = 'https://webdev-hw-wj.herokuapp.com/api/module/MID/lesson';
 
 let _singleton = Symbol();
 export default class LessonService {
@@ -14,7 +15,7 @@ export default class LessonService {
     }
 
     createLesson(moduleId, lesson) {
-        return fetch(LESSON_API_URL.replace('MID', moduleId),
+        return fetch(REMOTE.replace('MID', moduleId),
             {   body: JSON.stringify(lesson),
                 headers: { 'Content-Type': 'application/json' },
                 method: 'POST'
@@ -24,14 +25,14 @@ export default class LessonService {
 
     findAllLessonForModule(moduleId) {
         return fetch(
-            LESSON_API_URL.replace('MID', moduleId))
+            REMOTE.replace('MID', moduleId))
             .then(function (response) {
                 return response.json();
             })
     }
 
     deleteLesson(moduleId, lessonId) {
-        return fetch(LESSON_API_URL.replace('MID', moduleId) + '/' + lessonId,
+        return fetch(REMOTE.replace('MID', moduleId) + '/' + lessonId,
             {
                 method: 'DELETE'
             }).then(function (response) {
@@ -40,7 +41,7 @@ export default class LessonService {
     }
 
     update(moduleId, lessonId, lesson) {
-        return fetch(LESSON_API_URL.replace('MID', moduleId) + '/' + lessonId,
+        return fetch(REMOTE.replace('MID', moduleId) + '/' + lessonId,
             {
                 method: 'PUT',
                 body: JSON.stringify(lesson),

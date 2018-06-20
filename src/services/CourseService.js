@@ -1,5 +1,7 @@
 let _singleton = Symbol();
 const COURSE_API_URL = 'http://localhost:8080/api/course';
+const REMOTE = 'https://webdev-hw-wj.herokuapp.com/api/course';
+
 
 
 class CourseService {
@@ -15,21 +17,21 @@ class CourseService {
     }
 
     findAllCourses() {
-        return fetch(COURSE_API_URL).then(function (response)
+        return fetch(REMOTE).then(function (response)
         {
             return response.json();
         });
     }
 
     findCourseById(courseId) {
-        return fetch(`${COURSE_API_URL}/${courseId}`)
+        return fetch(`${REMOTE}/${courseId}`)
             .then(function (response) {
             return response.json();
         })
     }
 
     deleteCourse(courseId) {
-        return fetch(`${COURSE_API_URL}/${courseId}`,
+        return fetch(`${REMOTE}/${courseId}`,
             {
                 method: 'DELETE'
             }).then(function (response) {
@@ -38,7 +40,7 @@ class CourseService {
     }
 
     createCourse(course) {
-        return fetch(COURSE_API_URL, {
+        return fetch(REMOTE, {
             body: JSON.stringify(course),
             headers: {
                 'Content-Type': 'application/json'
@@ -50,7 +52,7 @@ class CourseService {
     }
 
     updateCourse(courseId, course) {
-        return fetch(COURSE_API_URL + '/'+ courseId, {
+        return fetch(REMOTE + '/'+ courseId, {
             method: 'put',
             body: JSON.stringify(course),
             headers: {'content-type': 'application/json'}
